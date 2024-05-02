@@ -4,6 +4,8 @@ stats <-  read.csv("NBAStats_Salary.csv")
 
 #install.packages("ggplot2")
 #library(ggplot2)
+#install.packages("ggimage")
+#library(ggimage)
 
 #Rename Columns
 names(stats) <- c("Player", "Salary", "Position", "Age", "Team",
@@ -61,6 +63,13 @@ top10_minperdol$Rank <- 1:10
 top10_minperdol <- top10_minperdol[, c("Rank", "Player", "Salary", "MinPerDollar")]
 top10_minperdol
 
+### VISUALIZATIONS ###
+
+# Create a scatterplot
+ggplot(top300salary, aes(x = PRA, y = Salary)) +
+  geom_point(color = ifelse(top300salary$Player == "LeBron James", "red", "darkblue"), alpha = 0.7, size = ifelse(top300salary$Player == "LeBron James", 4, 2)) +
+  labs(title = "Scatterplot of Salary vs. PRA", x = "PRA", y = "Salary")
+
 #Look at correlation to salary for different variables
 correlation <- cor(top300salary[, c("Salary", "GP","MP", "PTS", "TRB", "AST", "BLK",
                                    "STL", "PRA", "PER", "VORP", "3PM")], 
@@ -72,11 +81,42 @@ print(correlation)
 
 #Show correlation between Pts and Salary
 ggplot(top300salary, aes(x = PTS, y = Salary)) +
-  geom_point(color = "skyblue", alpha = 0.7) +
-  labs(title = "Scatterplot of Salary vs. PTS", x = "PTS", y = "Salary")
+  geom_point(color = "darkblue", alpha = 0.7) +
+  labs(title = "Correlation Between PPG and Salary", x = "PTS", y = "Salary")
+
 
 #Show correlation between PRA and Salary
 ggplot(top300salary, aes(x = PRA, y = Salary)) +
-  geom_point(color = "skyblue", alpha = 0.7) +
-  labs(title = "Scatterplot of Salary vs. PRA", x = "PRA", y = "Salary")
+  geom_image(data = subset(top300salary, Player == "LeBron James"), aes(image = "lebron.png"), size = 0.05) +
+  geom_point(data = subset(top300salary, Player != "LeBron James"), aes(color = "darkblue"), alpha = 0.7) +
+  scale_color_identity(name = "Player", breaks = "darkblue") +
+  labs(title = "Correlation Between Salary and PRA", x = "PRA", y = "Salary (in 10s of millions)") +
+  theme_minimal() + 
+  scale_y_continuous(labels = scales::comma_format(scale = 1e-7, accuracy = 0.1))
 
+#Show correlation between PTS and Salary
+ggplot(top300salary, aes(x = PTS, y = Salary)) +
+  geom_image(data = subset(top300salary, Player == "LeBron James"), aes(image = "lebron.png"), size = 0.05) +
+  geom_point(data = subset(top300salary, Player != "LeBron James"), aes(color = "darkblue"), alpha = 0.7) +
+  scale_color_identity(name = "Player", breaks = "darkblue") +
+  labs(title = "Correlation Between Salary and PPG", x = "PPG", y = "Salary (in 10s of millions)") +
+  theme_minimal() + 
+  scale_y_continuous(labels = scales::comma_format(scale = 1e-7, accuracy = 0.1))
+
+#Show correlation between AGE and Salary
+ggplot(top300salary, aes(x = Age, y = Salary)) +
+  geom_image(data = subset(top300salary, Player == "LeBron James"), aes(image = "lebron.png"), size = 0.05) +
+  geom_point(data = subset(top300salary, Player != "LeBron James"), aes(color = "darkblue"), alpha = 0.7) +
+  scale_color_identity(name = "Player", breaks = "darkblue") +
+  labs(title = "Correlation Between Salary and Age", x = "Age", y = "Salary (in 10s of millions)") +
+  theme_minimal() + 
+  scale_y_continuous(labels = scales::comma_format(scale = 1e-7, accuracy = 0.1))
+
+#Show correlation between GP and Salary
+ggplot(top300salary, aes(x = GP, y = Salary)) +
+  geom_image(data = subset(top300salary, Player == "LeBron James"), aes(image = "lebron.png"), size = 0.05) +
+  geom_point(data = subset(top300salary, Player != "LeBron James"), aes(color = "darkblue"), alpha = 0.7) +
+  scale_color_identity(name = "Player", breaks = "darkblue") +
+  labs(title = "Correlation Between Salary and Games Played", x = "GP", y = "Salary (in 10s of millions)") +
+  theme_minimal() +  
+  scale_y_continuous(labels = scales::comma_format(scale = 1e-7, accuracy = 0.1))

@@ -66,6 +66,7 @@ correlation <- cor(top300salary[, c("Salary", "GP","MP", "PTS", "TRB", "AST", "B
                                    "STL", "PRA", "PER", "VORP", "3PM")], 
                    use = "pairwise.complete.obs")
 print(correlation)
+
 #### HIGHEST CORRELATION VARIABLES TO SALARY ####
 ##        1.PRA 2.PTS 3.VORP 4.MP 5.AST        ##
 

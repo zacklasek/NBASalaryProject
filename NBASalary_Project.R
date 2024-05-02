@@ -2,10 +2,10 @@ rm(list=ls())
 
 stats <-  read.csv("NBAStats_Salary.csv")
 
-#install.packages("ggplot2")
-#library(ggplot2)
-#install.packages("ggimage")
-#library(ggimage)
+install.packages("ggplot2")
+library(ggplot2)
+install.packages("ggimage")
+library(ggimage)
 
 #Rename Columns
 names(stats) <- c("Player", "Salary", "Position", "Age", "Team",
